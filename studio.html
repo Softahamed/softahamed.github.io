@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rent a Studio – Studio_MA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <h2>Book a Studio</h2>
+
+    <div class="studio-card">
+      <h3>🎥 Camera Studio</h3>
+      <p>Perfect for shoots, reels, podcasts and content creation.</p>
+      <form onsubmit="bookStudio(event, 'Camera Studio')">
+        <input type="date" required />
+        <select required>
+          <option value="">Select Time Slot</option>
+          <option>9:00 AM - 11:00 AM</option>
+          <option>12:00 PM - 2:00 PM</option>
+          <option>3:00 PM - 5:00 PM</option>
+        </select>
+        <textarea placeholder="Add notes (optional)"></textarea>
+        <button type="submit">Book Camera Studio</button>
+      </form>
+    </div>
+
+    <div class="studio-card">
+      <h3>💻 Online Class Studio</h3>
+      <p>Ideal for live webinars, online teaching, and Zoom sessions.</p>
+      <form onsubmit="bookStudio(event, 'Online Class Studio')">
+        <input type="date" required />
+        <select required>
+          <option value="">Select Time Slot</option>
+          <option>10:00 AM - 12:00 PM</option>
+          <option>1:00 PM - 3:00 PM</option>
+          <option>4:00 PM - 6:00 PM</option>
+        </select>
+        <textarea placeholder="Add notes (optional)"></textarea>
+        <button type="submit">Book Online Studio</button>
+      </form>
+    </div>
+
+    <button onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+  </div>
+
+  <script>
+    function bookStudio(e, studioType) {
+      e.preventDefault();
+      const form = e.target;
+      const date = form.querySelector("input[type='date']").value;
+      const time = form.querySelector("select").value;
+      const notes = form.querySelector("textarea").value;
+      const user = localStorage.getItem('rememberUser') || 'Guest';
+
+      const booking = {
+        user,
+        studio: studioType,
+        date,
+        time,
+        notes,
+        id: 'BOOK' + Math.floor(Math.random() * 100000)
+      };
+
+      localStorage.setItem(`booking_${booking.id}`, JSON.stringify(booking));
+      alert(`✅ ${studioType} booked for ${date} at ${time}!\nBooking ID: ${booking.id}`);
+    }
+  </script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  emailjs.init("ABl5CM0_DCGnm5L9C"); // Replace with your actual public key
+</script>
+</body>
+</html>
